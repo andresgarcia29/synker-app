@@ -20,12 +20,14 @@ jobs:
     environment:
       - PROJECT_NAME=synker-app
       - GOOGLE_ZONE=us-central1-docker.pkg.dev
+      - BASE_URL=https://synker-service.hummy.app
     docker:
       - image: google/cloud-sdk
     steps:
       - checkout
 
       - setup_remote_docker
+          version: 19.03.13
 
       - gcp-cli/install
       - gcp-cli/initialize
