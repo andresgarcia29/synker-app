@@ -1,44 +1,42 @@
-name: ci
+version: 2.1
 
-on:
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
-    branches:
-      - main
-      - master
+orbs:
+  gcp-cli: circleci/gcp-cli@2.4.0
+
+workflows:
+  version: 2
+  build_and_workflow:
+    jobs:
+      - build_and_deploy_jobs:
+          context:
+            - deploy
+          filters:
+            branches:
+              only:
+                - master
 
 jobs:
-  ci:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [14]
-
+  build_and_deploy_jobs:
+    environment:
+      - PROJECT_NAME=synker-app
+      - GOOGLE_ZONE=us-central1-docker.pkg.dev
+    docker:
+      - image: google/cloud-sdk
     steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@master
+      - checkout
 
-      - name: Setup node env 🏗
-        uses: actions/setup-node@v2.1.5
-        with:
-          node-version: ${{ matrix.node }}
-          check-latest: true
+      - setup_remote_docker
 
-      - name: Cache node_modules 📦
-        uses: actions/cache@v2.1.4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - gcp-cli/install
+      - gcp-cli/initialize
 
-      - name: Install dependencies 👨🏻‍💻
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Run linter 👀
-        run: npm run lint
+      - run:
+          name: Build Image
+          command: |
+            docker build -t ${PROJECT_NAME} .
+            docker tag ${PROJECT_NAME}:latest ${GOOGLE_ZONE}/${GOOGLE_PROJECT_ID}/hummy/${PROJECT_NAME}:${CIRCLE_SHA1:0:7}
+      - run:
+          name: Deploy Image
+          command: |
+            gcloud auth configure-docker ${GOOGLE_ZONE} --quiet
+            docker push ${GOOGLE_ZONE}/${GOOGLE_PROJECT_ID}/hummy/${PROJECT_NAME}:${CIRCLE_SHA1:0:7}
