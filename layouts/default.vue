@@ -56,12 +56,12 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-music-box',
+          icon: 'mdi-spotify',
           title: 'Spotify',
           to: '/spotify',
         },
         {
-          icon: 'mdi-music-box-multiple',
+          icon: 'mdi-apple',
           title: 'Apple Music',
           to: '/apple-music',
         },
@@ -91,6 +91,5 @@ html {
   margin-bottom: 20px !important;
 }
 .active {
-  left: 20px;
 }
 </style>
