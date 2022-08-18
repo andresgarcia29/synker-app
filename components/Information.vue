@@ -24,9 +24,11 @@ export default {
   methods: {
     getLoginUrl() {
       if (process.env.ENV === 'prod') {
-        return 'https://synker-service.hummy.app/spotify/login'
+        return `${
+          process.env.BASE_URL || 'http://localhost:8000'
+        }/spotify/login`
       }
-      return 'http://localhost:8000/spotify/login'
+      return `${process.env.BASE_URL || 'http://localhost:8000'}/spotify/login`
     },
   },
 }
