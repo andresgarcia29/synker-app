@@ -42,3 +42,7 @@ jobs:
           command: |
             gcloud auth configure-docker ${GOOGLE_ZONE} --quiet
             docker push ${GOOGLE_ZONE}/${GOOGLE_PROJECT_ID}/hummy/${PROJECT_NAME}:${CIRCLE_SHA1:0:7}
+      - run:
+          name: Deploy New Version
+          command: |
+            gcloud run services update synker-app --image=${GOOGLE_ZONE}/${GOOGLE_PROJECT_ID}/hummy/${PROJECT_NAME}:${CIRCLE_SHA1:0:7} --region us-central1

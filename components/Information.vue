@@ -23,12 +23,7 @@ export default {
   name: 'information',
   methods: {
     getLoginUrl() {
-      if (process.env.ENV === 'prod') {
-        return `${
-          process.env.BASE_URL || 'http://localhost:8000'
-        }/spotify/login`
-      }
-      return `${process.env.BASE_URL || 'http://localhost:8000'}/spotify/login`
+      return `${process.env.BASE_URL}/spotify/login`
     },
   },
 }
