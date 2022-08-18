@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY . .
 
+ARG BASE_URL
+ENV BASE_URL=$BASE_URL
+
 RUN npm install \
   --prefer-offline \
   --frozen-lockfile \
