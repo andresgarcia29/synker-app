@@ -25,6 +25,13 @@
       <template class="playlist-text" v-slot:item.album="{ item }">
         <p>{{ item.album }}</p>
       </template>
+      <template class="playlist-text" v-slot:item.preview_url="{ item }">
+        <audio controls>
+          <source :src="item.preview_url" type="audio/ogg" />
+          <source :src="item.preview_url" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </template>
     </v-data-table>
   </v-dialog>
 </template>
@@ -39,6 +46,7 @@ export default {
         { text: 'Name', value: 'name' },
         { text: 'Artist', value: 'artist' },
         { text: 'Album', value: 'album' },
+        { text: 'Preview', value: 'preview_url' },
       ],
     }
   },

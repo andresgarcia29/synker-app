@@ -23,7 +23,7 @@ export default {
   name: 'information',
   methods: {
     getLoginUrl() {
-      return `${process.env.BASE_URL}/spotify/login`
+      return `${process.env.BASE_URL || '0.0.0.0:8000'}/spotify/login`
     },
   },
 }
