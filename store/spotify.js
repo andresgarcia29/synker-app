@@ -22,6 +22,9 @@ export const mutations = {
 export const actions = {
   async getPlaylists({ commit }) {
     const result = await this.$axios.$get('/synker/spotify/playlists')
+    if (!result) {
+      result = []
+    }
 
     commit('SET_PLAYLISTS', result)
   },

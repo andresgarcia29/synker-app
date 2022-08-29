@@ -75,7 +75,7 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     proxy: false,
-    baseURL: process.env.baseUrl || 'http://0.0.0.0:8000',
+    baseURL: process.env.BASE_URL,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -94,6 +94,6 @@ export default {
   build: {},
 
   env: {
-    baseUrl: process.env.BASE_URL || 'http://0.0.0.0:8000',
+    baseUrl: process.env.BASE_URL,
   },
 }

@@ -35,7 +35,6 @@ jobs:
       - run:
           name: Build Image
           command: |
-            echo ${BASE_URL}
             docker build --build-arg BASE_URL=${BASE_URL} -t ${PROJECT_NAME} .
             docker tag ${PROJECT_NAME}:latest ${GOOGLE_ZONE}/${GOOGLE_PROJECT_ID}/hummy/${PROJECT_NAME}:${CIRCLE_SHA1:0:7}
       - run:
